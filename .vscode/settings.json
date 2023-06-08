@@ -1,0 +1,11 @@
+{
+  "eslint.validate": ["html", "javascript", "javascriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none",
+  "python.pythonPath": "api/.venv/bin/python3"
+} // you can get this file by going into settings => workspace => click top-right corner icon
