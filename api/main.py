@@ -1,7 +1,10 @@
-a = 6
-if a == 4:
-    print("Yes")
-else:
-    print("Nod")
-"WHY NOTHNING IS GITTED"
-44
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello world!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5050)
