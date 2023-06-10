@@ -2,6 +2,7 @@ import os
 import requests
 from flask import Flask, request
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 # I needed to add newly installed dependencies to Pipfile myself (remember about it)
 
@@ -15,6 +16,7 @@ if not UNSPLASH_KEY: # stop application from running since it's mandatory for th
     raise EnvironmentError("Please create .env.local file and insert there UNSPLASH_KEY")
 
 app = Flask(__name__)
+CORS(app)
 app.config["DEBUG"] = DEBUG # True/False
 
 @app.route("/")

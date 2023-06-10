@@ -6,7 +6,7 @@ import ImageCard from "./components/ImageCard";
 import Welcome from "./components/Welcome";
 import { Container, Row, Col } from "react-bootstrap";
 
-const UNSPLASH_KEY = process.env.REACT_APP_UNSPLASH_KEY;
+const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5050";
 
 function App() {
   const [word, setWord] = useState(""); // initial value (now we have 2 variables 'connected' with our app)
@@ -15,9 +15,7 @@ function App() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     // console.log(e.target[0].value) // it's not advised way to do that [w Search.js jest target bez indeksu bo tutaj target Form.Control i Button łączą się w array (list)]
-    fetch(
-      `https://api.unsplash.com/photos/random/?query=${word}&client_id=${UNSPLASH_KEY}`
-    )
+    fetch(`${API_URL}/new-image?query=${word}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.urls.small) {
