@@ -7,5 +7,9 @@
     "editor.defaultFormatter": "ms-python.autopep8"
   },
   "python.formatting.provider": "none",
-  "python.pythonPath": "api/.venv/bin/python3"
+  "python.pythonPath": "api/.venv/bin/python3",
+  "javascript.format.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 } // you can get this file by going into settings => workspace => click top-right corner icon
