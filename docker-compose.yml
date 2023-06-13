@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   frontend:
     restart: always
@@ -17,3 +17,25 @@ services:
       - '5050:5050'
     volumes:
       - ./api:/app
+  mongo:
+    image: mongo # you could do mongo:latest if you wanted to (but :latest is already set by default)
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: very-strong-db-password
+    volumes:
+      - mongodb_data:/data/db # it's probably the default path to db, so stick to that. Or maybe it represents all the databases inside of it? I have no clue...
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: very-strong-db-password
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true # let's see if it works in a minute
+      depends_on: "mongo"
+
+volumes:
+  mongodb_data:
