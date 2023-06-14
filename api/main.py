@@ -4,7 +4,7 @@ from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-# I needed to add newly installed dependencies to Pipfile myself (remember about it)
+# I needed to add newly installed dependencies to Pipfile myself (remember about it) [turned out that I had been using pip install instead of pipenv install]
 
 load_dotenv(dotenv_path="./.env.local")
 
