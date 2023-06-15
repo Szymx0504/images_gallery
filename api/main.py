@@ -59,7 +59,7 @@ def images():
         # or you can use request.get_json() and get a python object directly
         image = request.get_json()
         # image["_id"] = image["_id"].toString()
-        image["_id"] = image.get("id")
+        image["_id"] = image.get("id") # in that case, mongoDB won't generate _id automatically
         result = images_collection.insert_one(image)
         inserted_id = result.inserted_id
         return {"inserted_id": inserted_id}

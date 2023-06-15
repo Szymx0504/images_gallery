@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/Header"; // you don't need to add curly braces here since Header is set as a default export
@@ -12,6 +12,19 @@ const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5050";
 function App() {
   const [word, setWord] = useState(""); // initial value (now we have 2 variables 'connected' with our app)
   const [images, setImages] = useState([]);
+
+  
+  const getSavedImages = async () => {
+    try {
+      const result = await axios.get(`${API_URL}/images`)
+      setImages(result.data || []); // in case the .data is empty let's put an empty array
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // Warning: useEffect must not return anything besides a function, which is used for clean-up.
+  useEffect(() => { getSavedImages() }, []); // if you type an empty list at the end, the function will be called only when the page is loaded (so only once)
+  // specifically when the app component renders
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
