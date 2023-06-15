@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/Header"; // you don't need to add curly braces here since Header is set as a default export
 import Search from "./components/Search";
@@ -12,18 +13,27 @@ function App() {
   const [word, setWord] = useState(""); // initial value (now we have 2 variables 'connected' with our app)
   const [images, setImages] = useState([]);
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = async (e) => {
     e.preventDefault();
     // console.log(e.target[0].value) // it's not advised way to do that [w Search.js jest target bez indeksu bo tutaj target Form.Control i Button łączą się w array (list)]
-    fetch(`${API_URL}/new-image?query=${word}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.urls.small) {
-          // i added this myself (if the photo doesn't exist, don't add it) [there was an error previously]
-          setImages([{ ...data, title: word }, ...images]);
-        }
-      })
-      .catch((error) => console.log(error));
+    // fetch(`${API_URL}/new-image?query=${word}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.urls.small) {
+    //       // i added this myself (if the photo doesn't exist, don't add it) [there was an error previously]
+    //       setImages([{ ...data, title: word }, ...images]);
+    //     }
+    //   })
+    //   .catch((error) => console.log(error));
+
+    try {
+      const result = await axios.get(`${API_URL}/new-image?query=${word}`);
+      // console.log(result.data); // everything related to searched images is stored inside of .data 'folder'
+      setImages([{ ...result.data, title: word }, ...images]);
+    } catch (error) {
+      console.log(error);
+    };
+
     setWord(""); // in order to clear the search input
   };
   const handleDeleteImage = (id) => {

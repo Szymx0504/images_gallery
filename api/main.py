@@ -50,7 +50,7 @@ def images():
 
         # we need to convert a list (Cursor object with multiple documents specifically) into a list of jsons, that's why we cannot use just json() function
         # now jsonify is able to convert a list of dictionaries into multiple json objects inside of the one variable (one list)
-        return jsonify([img for img in images])
+        return jsonify([img for img in images]) # I think list(images) could also work here
     if request.method == "POST":
         # save image in the database
 

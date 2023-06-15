@@ -26,7 +26,6 @@ const Search = ({ word, setWord, handleSubmit }) => { // you could also replace 
                                     value={word}
                                     onChange={(e) => setWord(e.target.value)}
                                     placeholder="Search for new image..."
-
                                 />
                             </Col>
                             <Col>
