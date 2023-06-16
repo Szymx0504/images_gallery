@@ -49,9 +49,17 @@ function App() {
 
     setWord(""); // in order to clear the search input
   };
-  const handleDeleteImage = (id) => {
-    setImages(images.filter((image) => image.id !== id)); // filter(), the same as map(), creates a brand new array so it perfectly fits here (since you shouldn't directly mutate State's value)
+  const handleDeleteImage = async (id) => {
+    try {
+      const result = await axios.delete(`${API_URL}/images/${id}`); // you need to insert here .id, not the image object itself (remember about it)
+      if (result.data?.deleted_id) {
+        setImages(images.filter((image) => image.id !== id)); // filter(), the same as map(), creates a brand new array so it perfectly fits here (since you shouldn't directly mutate State's value)
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const handleSaveImage = async (id) => {
     const imageToBeSaved = images.find((image) => image.id === id);
     imageToBeSaved.saved = true;
