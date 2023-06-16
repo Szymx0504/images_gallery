@@ -1,5 +1,10 @@
 {
   "eslint.validate": ["html", "javascript", "javascriptreact"],
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto" // in such case, ESLint will take into account also sub-folders of images_gallery (and we need to get react package inside of the node_modules folder)
+    }
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
