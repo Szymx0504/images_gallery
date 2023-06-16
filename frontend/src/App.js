@@ -13,7 +13,7 @@ function App() {
   const [word, setWord] = useState(""); // initial value (now we have 2 variables 'connected' with our app)
   const [images, setImages] = useState([]);
 
-  
+
   const getSavedImages = async () => {
     try {
       const result = await axios.get(`${API_URL}/images`)
@@ -52,6 +52,22 @@ function App() {
   const handleDeleteImage = (id) => {
     setImages(images.filter((image) => image.id !== id)); // filter(), the same as map(), creates a brand new array so it perfectly fits here (since you shouldn't directly mutate State's value)
   };
+  const handleSaveImage = async (id) => {
+    const imageToBeSaved = images.find((image) => image.id === id);
+    imageToBeSaved.saved = true;
+
+    try {
+      const result = await axios.post(`${API_URL}/images`, imageToBeSaved); // axios will automatically convert JavaScriptObject to json file for you
+      if (result.data?.inserted_id) { // optional chaining (if .inserted_id doesn't exist, the statement will be evaluated to undefined and it won't raise an error)
+        setImages(
+          images.map((image) => image.id === id ? { ...image, saved: true } : image)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // how it is accessed when reloading and variables above don't get assigned once again? Because they are constants or what??
   // console.log(word) // anytime when state of the component changes, component is re-rendered (still idk how the code reades comes through here)
 
@@ -86,6 +102,7 @@ function App() {
                 <ImageCard
                   image={image}
                   deleteImage={handleDeleteImage}
+                  saveImage={handleSaveImage}
                 ></ImageCard>
               </Col>
             ))}
