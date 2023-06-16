@@ -9,7 +9,7 @@ services:
       - /app/node_modules
       - ./frontend:/app
     # environment:
-    #   - CHOKIDAR_USEPOLLING=true
+    #   - CHOKIDAR_USEPOLLING=true #idk why it's not refreshing automatically
   api:
     restart: always
     build: ./api

@@ -73,6 +73,18 @@ def images():
 # json.dumps() : dict => jsonString
 # jsonify() : dict => responseObject
 
+@app.route("/images/<image_id>", methods=["DELETE"])
+def delete(image_id):
+    # TypeError: filter must be an instance of dict, bson.son.SON, or any other type that inherits from collections.Mapping
+    # images_collection.delete_one(lambda image: image._id == image_id) 
+    result = images_collection.delete_one({"_id": image_id})
+
+    if not result:
+        return {"error": "Image wasn't deleted. Please try again"}, 500 # server side error
+    if result and not result.deleted_count:
+        return {"error": "Image not found"}, 404
+    return {"deleted_id": image_id}, 200 # it's the default status code that is returned
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050)
