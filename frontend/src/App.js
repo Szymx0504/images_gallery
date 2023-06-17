@@ -5,6 +5,7 @@ import Header from "./components/Header"; // you don't need to add curly braces 
 import Search from "./components/Search";
 import ImageCard from "./components/ImageCard";
 import Welcome from "./components/Welcome";
+import Spinner from "./components/Spinner";
 import { Container, Row, Col } from "react-bootstrap";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5050";
@@ -12,12 +13,14 @@ const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5050";
 function App() {
   const [word, setWord] = useState(""); // initial value (now we have 2 variables 'connected' with our app)
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
   const getSavedImages = async () => {
     try {
-      const result = await axios.get(`${API_URL}/images`)
+      const result = await axios.get(`${API_URL}/images`) // result.data is what was returned by flask
       setImages(result.data || []); // in case the .data is empty let's put an empty array
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -97,28 +100,28 @@ function App() {
   return (
     <div>
       <Header title="Images Gallery"></Header>
-      <Search
-        word={word}
-        setWord={setWord}
-        handleSubmit={handleSearchSubmit}
-      ></Search>
-      <Container className="mt-4">
-        {images.length ? (
-          <Row xs={1} md={2} lg={3}>
-            {images.map((image, i) => (
-              <Col key={i} className="pb-3">
-                <ImageCard
-                  image={image}
-                  deleteImage={handleDeleteImage}
-                  saveImage={handleSaveImage}
-                ></ImageCard>
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <Welcome></Welcome>
-        )}
-      </Container>
+      {loading ? (<div><Spinner></Spinner></div>) : (
+        <>
+          <Search word={word} setWord={setWord} handleSubmit={handleSearchSubmit}></Search>
+          <Container className="mt-4">
+            {images.length ? (
+              <Row xs={1} md={2} lg={3}>
+                {images.map((image, i) => (
+                  <Col key={i} className="pb-3">
+                    <ImageCard
+                      image={image}
+                      deleteImage={handleDeleteImage}
+                      saveImage={handleSaveImage}
+                    ></ImageCard>
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <Welcome></Welcome>
+            )}
+          </Container>
+        </>
+      )}
     </div>
   );
 } // you can do either <Header></Header> or <Header/>
